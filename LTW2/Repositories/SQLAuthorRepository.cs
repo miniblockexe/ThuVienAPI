@@ -81,5 +81,17 @@ namespace LTW2.Repositories
             }
             return null;
         }
+        public AuthorWithBooksDTO GetAuthorWithBooks(int id)
+        {
+            var authorData = _dbContext.Authors
+                .Where(n => n.Id == id)
+                .Select(author => new AuthorWithBooksDTO
+                {
+                    FullName = author.FullName,
+                    Books = author.Book_Authors.Select(ba => ba.Book.Title).ToList()
+                }).FirstOrDefault();
+
+            return authorData;
+        }
     }
 }
