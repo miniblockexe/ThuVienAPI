@@ -10,5 +10,6 @@ namespace LTW2.Repositories
         AddPublisherRequestDTO AddPublisher(AddPublisherRequestDTO addPublisherRequestDTO);
         PublisherNoIdDTO UpdatePublisherById(int id, PublisherNoIdDTO publisherNoIdDTO);
         Publisher? DeletePublisherById(int id);
+        PublisherWithBooksAndAuthorsDTO GetPublisherData(int id);
     }
 }

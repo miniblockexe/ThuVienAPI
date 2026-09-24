@@ -53,5 +53,15 @@ namespace LTW2.Controllers
             var publisherDelete = _publisherRepository.DeletePublisherById(id);
             return Ok();
         }
+        [HttpGet("{id}/books")]
+        public IActionResult GetPublisherData(int id)
+        {
+            var publisherData = _publisherRepository.GetPublisherData(id);
+            if (publisherData == null)
+            {
+                return NotFound();
+            }
+            return Ok(publisherData);
+        }
     }
 }
