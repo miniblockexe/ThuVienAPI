@@ -76,16 +76,6 @@ namespace LTW2.Repositories
 
             foreach (var id in addBookRequestDTO.AuthorIds)
             {
-                if (!_dbContext.Authors.Any(a => a.Id == id))
-                {
-                    continue;
-                }
-
-                bool isAssigned = _dbContext.Books_Authors.Any(ba => ba.BookId == bookDomainModel.Id && ba.AuthorId == id);
-                if (isAssigned)
-                {
-                    continue; 
-                }
                 var _book_author = new Book_Author()
                 {
                     BookId = bookDomainModel.Id,

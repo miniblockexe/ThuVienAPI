@@ -81,6 +81,56 @@ namespace LTW2.Controllers
                     $"Publisher ID {addBookRequestDTO.PublisherID} does not exist.");
             }
 
+            foreach (var authorId in addBookRequestDTO.AuthorIds)
+            {
+                if (!_dbContext.Authors.Any(a => a.Id == authorId))
+                {
+                    ModelState.AddModelError(nameof(addBookRequestDTO.AuthorIds),
+                        $"Author ID {authorId} does not exist.");
+                }
+            }
+
+            if (addBookRequestDTO.AuthorIds == null || !addBookRequestDTO.AuthorIds.Any())
+            {
+                ModelState.AddModelError(nameof(addBookRequestDTO.AuthorIds), "Mỗi sách phải có ít nhất một tác giả.");
+            }
+            else
+            {
+                foreach (var authorId in addBookRequestDTO.AuthorIds)
+                {
+                    if (!_dbContext.Authors.Any(a => a.Id == authorId))
+                    {
+                        ModelState.AddModelError(nameof(addBookRequestDTO.AuthorIds),
+                            $"Author ID {authorId} does not exist.");
+                        continue;
+                    }
+
+                    int currentBookCount = _dbContext.Books_Authors.Count(ba => ba.AuthorId == authorId);
+                    if (currentBookCount >= 20)
+                    {
+                        ModelState.AddModelError(nameof(addBookRequestDTO.AuthorIds), $"Tác giả (ID: {authorId}) đã đạt giới hạn tối đa 20 cuốn sách.");
+                    }
+                }
+
+                var duplicateAuthors = addBookRequestDTO.AuthorIds.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
+                if (duplicateAuthors.Any())
+                {
+                    ModelState.AddModelError(nameof(addBookRequestDTO.AuthorIds), "Không được phép gán trùng một tác giả cho cùng một sách.");
+                }
+            }
+
+            int targetYear = addBookRequestDTO.DateAdded.Year;
+            int publisherBookCountInYear = _dbContext.Books.Count(b => b.PublisherID == addBookRequestDTO.PublisherID && b.DateAdded.Year == targetYear);
+            if (publisherBookCountInYear >= 100)
+            {
+                ModelState.AddModelError(nameof(addBookRequestDTO.PublisherID), $"Nhà xuất bản này đã xuất bản quá 100 cuốn sách trong năm {targetYear}.");
+            }
+
+            bool isDuplicateTitleInPublisher = _dbContext.Books.Any(b => b.PublisherID == addBookRequestDTO.PublisherID && b.Title == addBookRequestDTO.Title);
+            if (isDuplicateTitleInPublisher)
+            {
+                ModelState.AddModelError(nameof(addBookRequestDTO.Title), "Tiêu đề sách đã tồn tại ở nhà xuất bản này.");
+            }
             // kiem tra Description NotNull
             if (string.IsNullOrEmpty(addBookRequestDTO.Description))
             {
