@@ -36,6 +36,17 @@ namespace LTW2.Repositories
                 {
                     allBooks = allBooks.Where(x => x.Title.Contains(filterQuery));
                 }
+                else if (filterOn.Equals("description", StringComparison.OrdinalIgnoreCase))
+                {
+                    allBooks = allBooks.Where(x => x.Description.Contains(filterQuery));
+                }
+                else if (filterOn.Equals("rate", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (int.TryParse(filterQuery, out int rate))
+                    {
+                        allBooks = allBooks.Where(x => x.Rate == rate);
+                    }
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(sortBy))
@@ -46,6 +57,12 @@ namespace LTW2.Repositories
                         ? allBooks.OrderBy(x => x.Title)
                         : allBooks.OrderByDescending(x => x.Title);
                 }
+            }
+            else if (sortBy.Equals("rate", StringComparison.OrdinalIgnoreCase))
+            {
+                allBooks = isAscending
+                    ? allBooks.OrderBy(x => x.Rate)
+                    : allBooks.OrderByDescending(x => x.Rate);
             }
             var skipResults = (pageNumber - 1) * pageSize;
             return allBooks.Skip(skipResults).Take(pageSize).ToList();
