@@ -50,6 +50,10 @@ namespace LTW2.Controllers
         [HttpDelete("delete-author-by-id/{id}")]
         public IActionResult DeleteBookById(int id)
         {
+            if (_dbContext.Books_Authors.Any(ba => ba.AuthorId == id))
+            {
+                return BadRequest(new { message = "Không thể xóa tác giả này vì có sách đang liên kết." });
+            }
             var authorDelete = _authorRepository.DeleteAuthorById(id);
             return Ok();
         }

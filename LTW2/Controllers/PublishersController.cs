@@ -56,6 +56,10 @@ namespace LTW2.Controllers
         [HttpDelete("delete-publisher-by-id/{id}")]
         public IActionResult DeletePublisherById(int id)
         {
+            if (_dbContext.Books.Any(b => b.PublisherID == id))
+            {
+                return BadRequest(new { message = "Không thể xóa nhà xuất bản này vì có sách đang liên kết." });
+            }
             var publisherDelete = _publisherRepository.DeletePublisherById(id);
             return Ok();
         }
