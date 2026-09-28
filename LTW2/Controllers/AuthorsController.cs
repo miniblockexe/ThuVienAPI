@@ -20,9 +20,11 @@ namespace LTW2.Controllers
         }
 
         [HttpGet("get-all-author")]
-        public IActionResult GetAllAuthor()
+        public IActionResult GetAllAuthor([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
+            [FromQuery] string? sortBy, [FromQuery] bool isAscending = true,
+            [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
-            var allAuthors = _authorRepository.GellAllAuthors();
+            var allAuthors = _authorRepository.GellAllAuthors(filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
             return Ok(allAuthors);
         }
 

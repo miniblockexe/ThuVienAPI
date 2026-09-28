@@ -20,9 +20,11 @@ namespace LTW2.Controllers
         }
 
         [HttpGet("get-all-publisher")]
-        public IActionResult GetAllPublisher()
+        public IActionResult GetAllPublisher([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
+            [FromQuery] string? sortBy, [FromQuery] bool isAscending = true,
+            [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
-            var allPublishers = _publisherRepository.GetAllPublishers();
+            var allPublishers = _publisherRepository.GetAllPublishers(filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
             return Ok(allPublishers);
         }
 

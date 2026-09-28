@@ -13,22 +13,38 @@ namespace LTW2.Repositories
             _dbContext = dbContext;
         }
 
-        public List<AuthorDTO> GellAllAuthors()
+        public List<AuthorDTO> GellAllAuthors(string? filterOn = null, string? filterQuery = null,
+            string? sortBy = null, bool isAscending = true, int pageNumber = 1, int pageSize = 1000)
         {
-            //Get Data From Database -Domain Model
-            var allAuthorsDomain = _dbContext.Authors.ToList();
-            //Map domain models to DTOs
-            var allAuthorDTO = new List<AuthorDTO>();
-            foreach (var authorDomain in allAuthorsDomain)
+            var allAuthors = _dbContext.Authors.Select(a => new AuthorDTO
             {
-                allAuthorDTO.Add(new AuthorDTO()
+                Id = a.Id,
+                FullName = a.FullName
+            }).AsQueryable();
+
+            // filtering
+            if (!string.IsNullOrWhiteSpace(filterOn) && !string.IsNullOrWhiteSpace(filterQuery))
+            {
+                if (filterOn.Equals("fullname", StringComparison.OrdinalIgnoreCase))
                 {
-                    Id = authorDomain.Id,
-                    FullName = authorDomain.FullName
-                });
+                    allAuthors = allAuthors.Where(x => x.FullName.Contains(filterQuery));
+                }
             }
-            //return DTOs
-            return allAuthorDTO;
+
+            // sorting
+            if (!string.IsNullOrWhiteSpace(sortBy))
+            {
+                if (sortBy.Equals("fullname", StringComparison.OrdinalIgnoreCase))
+                {
+                    allAuthors = isAscending
+                        ? allAuthors.OrderBy(x => x.FullName)
+                        : allAuthors.OrderByDescending(x => x.FullName);
+                }
+            }
+
+            // pagination
+            var skipResults = (pageNumber - 1) * pageSize;
+            return allAuthors.Skip(skipResults).Take(pageSize).ToList();
         }
 
         public AuthorNoIdDTO GetAuthorById(int id)

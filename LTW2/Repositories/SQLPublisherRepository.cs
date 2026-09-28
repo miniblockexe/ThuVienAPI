@@ -14,22 +14,36 @@ namespace LTW2.Repositories
             _dbContext = dbContext;
         }
 
-        public List<PublisherDTO> GetAllPublishers()
+        public List<PublisherDTO> GetAllPublishers(string? filterOn = null, string? filterQuery = null,
+            string? sortBy = null, bool isAscending = true, int pageNumber = 1, int pageSize = 1000)
         {
             //Get Data From Database -Domain Model
-            var allPublishersDomain = _dbContext.Publishers.ToList();
-
-            //Map domain models to DTOs
-            var allPublisherDTO = new List<PublisherDTO>();
-            foreach (var publisherDomain in allPublishersDomain)
+            var allPublishers = _dbContext.Publishers.Select(p => new PublisherDTO
             {
-                allPublisherDTO.Add(new PublisherDTO()
+                Id = p.Id,
+                Name = p.Name
+            }).AsQueryable();
+            // filtering
+            if (!string.IsNullOrWhiteSpace(filterOn) && !string.IsNullOrWhiteSpace(filterQuery))
+            {
+                if (filterOn.Equals("name", StringComparison.OrdinalIgnoreCase))
                 {
-                    Id = publisherDomain.Id,
-                    Name = publisherDomain.Name
-                });
+                    allPublishers = allPublishers.Where(x => x.Name.Contains(filterQuery));
+                }
             }
-            return allPublisherDTO;
+            // sorting
+            if (!string.IsNullOrWhiteSpace(sortBy))
+            {
+                if (sortBy.Equals("name", StringComparison.OrdinalIgnoreCase))
+                {
+                    allPublishers = isAscending
+                        ? allPublishers.OrderBy(x => x.Name)
+                        : allPublishers.OrderByDescending(x => x.Name);
+                }
+            }
+            // pagination
+            var skipResults = (pageNumber - 1) * pageSize;
+            return allPublishers.Skip(skipResults).Take(pageSize).ToList();
         }
 
         public PublisherNoIdDTO GetPublisherById(int id)
