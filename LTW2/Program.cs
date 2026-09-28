@@ -1,6 +1,7 @@
 using LTW2.Data;
 using LTW2.Repositories;
 using Microsoft.EntityFrameworkCore;
+using LTW2.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -30,7 +31,7 @@ var app = builder.Build();
 //}
 
 //app.UseHttpsRedirection();
-
+app.UseMiddleware<RequiredFieldsMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

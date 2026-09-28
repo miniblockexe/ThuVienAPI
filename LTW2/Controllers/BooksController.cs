@@ -25,10 +25,12 @@ namespace LTW2.Controllers
         }
 
         [HttpGet("get-all-books")]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
+            [FromQuery] string? sortBy, [FromQuery] bool isAscending = true,
+            [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 100)
         {
             // su dung reposity pattern
-            var allBooks = _bookRepository.GetAllBooks();
+            var allBooks = _bookRepository.GetAllBooks(filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
             return Ok(allBooks);
         }
 
@@ -45,6 +47,10 @@ namespace LTW2.Controllers
         // [Authorize(Roles = "Write")]
         public IActionResult AddBook([FromBody] AddBookRequestDTO addBookRequestDTO)
         {
+            if (!_dbContext.Publishers.Any(p => p.Id == addBookRequestDTO.PublisherID))
+            {
+                return BadRequest(new { message = $"PublisherID {addBookRequestDTO.PublisherID} không tồn tại." });
+            }
             if (ValidateAddBook(addBookRequestDTO))
             {
                 var bookAdd = _bookRepository.AddBook(addBookRequestDTO);

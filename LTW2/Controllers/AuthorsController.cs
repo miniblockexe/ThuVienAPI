@@ -52,7 +52,7 @@ namespace LTW2.Controllers
         {
             if (_dbContext.Books_Authors.Any(ba => ba.AuthorId == id))
             {
-                return BadRequest(new { message = "Không thể xóa tác giả này vì có sách đang liên kết." });
+                return BadRequest(new { message = "Hãy gỡ liên kết trong Book_Author trước khi xóa." });
             }
             var authorDelete = _authorRepository.DeleteAuthorById(id);
             return Ok();
