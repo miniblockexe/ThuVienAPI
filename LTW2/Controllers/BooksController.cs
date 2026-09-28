@@ -75,6 +75,12 @@ namespace LTW2.Controllers
                 return false;
             }
 
+            if (!_dbContext.Publishers.Any(p => p.Id == addBookRequestDTO.PublisherID))
+            {
+                ModelState.AddModelError(nameof(addBookRequestDTO.PublisherID),
+                    $"Publisher ID {addBookRequestDTO.PublisherID} does not exist.");
+            }
+
             // kiem tra Description NotNull
             if (string.IsNullOrEmpty(addBookRequestDTO.Description))
             {

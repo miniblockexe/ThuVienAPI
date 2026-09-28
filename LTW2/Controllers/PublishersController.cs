@@ -36,6 +36,12 @@ namespace LTW2.Controllers
         [HttpPost("add-publisher")]
         public IActionResult AddPublisher([FromBody] AddPublisherRequestDTO addPublisherRequestDTO)
         {
+            if (_dbContext.Publishers.Any(p => p.Name == addPublisherRequestDTO.Name))
+            {
+                ModelState.AddModelError(nameof(addPublisherRequestDTO.Name), "Publisher name already exists");
+                return BadRequest(ModelState);
+            }
+
             var publisherAdd = _publisherRepository.AddPublisher(addPublisherRequestDTO);
             return Ok(publisherAdd);
         }
