@@ -8,7 +8,7 @@
         {
             { "/api/books",        new[] { "title", "publisherid" } },
             { "/api/book-authors", new[] { "bookid", "authorid" } },
-            { "/api/authors",      new[] { "name" } },
+            { "/api/authors",      new[] { "fullname" } },
             { "/api/publishers",   new[] { "name" } },
         };
 

@@ -87,15 +87,6 @@ namespace LTW2.Controllers
                     $"Publisher ID {addBookRequestDTO.PublisherID} does not exist.");
             }
 
-            foreach (var authorId in addBookRequestDTO.AuthorIds)
-            {
-                if (!_dbContext.Authors.Any(a => a.Id == authorId))
-                {
-                    ModelState.AddModelError(nameof(addBookRequestDTO.AuthorIds),
-                        $"Author ID {authorId} does not exist.");
-                }
-            }
-
             if (addBookRequestDTO.AuthorIds == null || !addBookRequestDTO.AuthorIds.Any())
             {
                 ModelState.AddModelError(nameof(addBookRequestDTO.AuthorIds), "Mỗi sách phải có ít nhất một tác giả.");

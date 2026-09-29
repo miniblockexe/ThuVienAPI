@@ -7,7 +7,7 @@ namespace LTW2.Models.DTO
     {
         [Required(ErrorMessage = "Title cannot be empty")]
         [MinLength(10)]
-        [RegularExpression(@"^[a-zA-Z0-9\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐ.,;@!-_]*$", ErrorMessage = "Title cannot contain special characters")]
+        [RegularExpression(@"^[a-zA-Z0-9\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐ.,;@!\-_]*$", ErrorMessage = "Title cannot contain special characters")]
         public string Title { get; set; }
         public string? Description { get; set; }
         public bool IsRead { get; set; }
