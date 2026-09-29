@@ -57,13 +57,13 @@ namespace LTW2.Repositories
                         ? allBooks.OrderBy(x => x.Title)
                         : allBooks.OrderByDescending(x => x.Title);
                 }
-            }
-            else if (sortBy.Equals("rate", StringComparison.OrdinalIgnoreCase))
-            {
-                allBooks = isAscending
-                    ? allBooks.OrderBy(x => x.Rate)
-                    : allBooks.OrderByDescending(x => x.Rate);
-            }
+                else if (sortBy.Equals("rate", StringComparison.OrdinalIgnoreCase))
+                {
+                    allBooks = isAscending
+                        ? allBooks.OrderBy(x => x.Rate)
+                        : allBooks.OrderByDescending(x => x.Rate);
+                }
+            }           
             var skipResults = (pageNumber - 1) * pageSize;
             return allBooks.Skip(skipResults).Take(pageSize).ToList();
         }
