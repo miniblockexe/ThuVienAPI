@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -35,7 +36,14 @@ builder.Services.Configure<IdentityOptions>(option =>
     option.Password.RequiredLength = 6;
     option.Password.RequiredUniqueChars = 1;
 });
+var _logger = new LoggerConfiguration()
+    .WriteTo.Console() // ghi ra console
+    .WriteTo.File("Logs/Book_log.txt", rollingInterval: RollingInterval.Minute) // ghi ra file lưu trong thư mục Logs
+    .MinimumLevel.Information()
+    .CreateLogger();
 
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(_logger);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
