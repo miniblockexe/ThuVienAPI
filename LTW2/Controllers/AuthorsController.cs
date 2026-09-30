@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using LTW2.Data;
 using LTW2.Models.DTO;
 using LTW2.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LTW2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthorsController : ControllerBase
     {
         private readonly AppDbContext _dbContext;

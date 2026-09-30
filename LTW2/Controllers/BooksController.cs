@@ -13,6 +13,7 @@ namespace LTW2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BooksController : ControllerBase
     {
         private readonly AppDbContext _dbContext;
@@ -25,6 +26,7 @@ namespace LTW2.Controllers
         }
 
         [HttpGet("get-all-books")]
+        [Authorize(Roles = "Read")]
         public IActionResult GetAll([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
             [FromQuery] string? sortBy, [FromQuery] bool isAscending = true,
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 100)
@@ -35,6 +37,7 @@ namespace LTW2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Read")]
         [Route("get-book-by-id/{id}")]
         public IActionResult GetBookById([FromRoute] int id)
         {
@@ -67,6 +70,7 @@ namespace LTW2.Controllers
         }
 
         [HttpDelete("delete-book-by-id/{id}")]
+        [Authorize(Roles = "Write")]
         public IActionResult DeleteBookById(int id)
         {
             var deleteBook = _bookRepository.DeleteBookById(id);

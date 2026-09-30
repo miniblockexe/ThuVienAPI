@@ -1,12 +1,14 @@
 ﻿using LTW2.Data;
 using LTW2.Models.Domain;
 using LTW2.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LTW2.Controllers
 {
     [Route("api/book-authors")]
     [ApiController]
+    [Authorize]
     public class BookAuthorsController : ControllerBase
     {
         private const int MaxBooksPerAuthor = 20; // Bài 10
