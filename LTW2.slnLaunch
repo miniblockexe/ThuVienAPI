@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Library-web\\Library-web.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "LTW2\\LTW2.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      }
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+@model Library_web.Models.DTO.loginDTO
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Đăng nhập</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="text-danger">@ViewBag.Error</div>
+}
+
+<form asp-controller="Auth" asp-action="Login" method="POST">
+    <label>Username:</label>
+    <input type="text" name="username" asp-for="Username" /><br />
+    <span asp-validation-for="Username" class="text-danger"></span><br />
+
+    <label>Password:</label>
+    <input type="password" name="password" asp-for="Password" /><br />
+    <span asp-validation-for="Password" class="text-danger"></span><br />
+
+    <input type="submit" value="Login" class="btn btn-primary" />
+</form>
