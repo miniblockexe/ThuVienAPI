@@ -1,0 +1,17 @@
+﻿@model Library_web.Models.DTO.publisherDTO
+@{
+    ViewData["Title"] = "Publisher detail";
+}
+
+<h1>Thông tin nhà xuất bản:</h1>
+
+@if (ViewBag.Error != null)
+{
+    <div class="text-danger">@ViewBag.Error</div>
+}
+
+<p>Id: @Model.Id</p>
+<p>Name: @Model.Name</p>
+
+<a asp-controller="Publishers" asp-action="editPublisher" asp-route-id="@Model.Id">Edit</a> |
+<a asp-controller="Publishers" asp-action="Index">Back to list</a>

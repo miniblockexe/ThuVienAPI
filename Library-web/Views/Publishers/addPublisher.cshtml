@@ -1,0 +1,17 @@
+﻿@model Library_web.Models.DTO.publisherNoIdDTO
+@{
+    ViewData["Title"] = "Add publisher";
+}
+
+<h2>Add publisher:</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="text-danger">@ViewBag.Error</div>
+}
+
+<form asp-controller="Publishers" asp-action="addPublisher" method="POST">
+    <label>Name</label>
+    <input type="text" asp-for="Name" /><br />
+    <input type="submit" value="Save" />
+</form>

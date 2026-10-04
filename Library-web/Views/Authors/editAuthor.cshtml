@@ -1,0 +1,17 @@
+﻿@model Library_web.Models.DTO.authorDTO
+@{
+    ViewData["Title"] = "Edit author";
+}
+
+<h2>Edit author:</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="text-danger">@ViewBag.Error</div>
+}
+
+<form asp-controller="Authors" asp-action="editAuthor" asp-route-id="@Model.Id" method="POST">
+    <label>Full name</label>
+    <input type="text" asp-for="FullName" /><br />
+    <input type="submit" value="Save" />
+</form>

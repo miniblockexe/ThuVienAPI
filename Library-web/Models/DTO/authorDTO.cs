@@ -6,4 +6,9 @@
 
         public string FullName { get; set; }
     }
+
+    public class authorNoIdDTO
+    {
+        public string FullName { get; set; }
+    }
 }

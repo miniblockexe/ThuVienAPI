@@ -1,0 +1,17 @@
+﻿@model Library_web.Models.DTO.publisherDTO
+@{
+    ViewData["Title"] = "Edit publisher";
+}
+
+<h2>Edit publisher:</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="text-danger">@ViewBag.Error</div>
+}
+
+<form asp-controller="Publishers" asp-action="editPublisher" asp-route-id="@Model.Id" method="POST">
+    <label>Name</label>
+    <input type="text" asp-for="Name" /><br />
+    <input type="submit" value="Save" />
+</form>

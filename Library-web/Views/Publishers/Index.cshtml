@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Library_web.Models.DTO.publisherDTO>
+@{
+    ViewData["Title"] = "Publishers";
+}
+
+<h2>List all publishers</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="text-danger">@TempData["Error"]</div>
+}
+
+<a class="btn btn-primary" asp-controller="Publishers" asp-action="addPublisher">Add new publisher</a>
+
+<table class="table">
+    <tr>
+        <th>Id code</th>
+        <th>Name</th>
+        <th>Detail</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td><a asp-area="" asp-controller="Publishers" asp-action="listPublisher" asp-route-id="@item.Id">Detail</a></td>
+            <td><a asp-area="" asp-controller="Publishers" asp-action="editPublisher" asp-route-id="@item.Id">Edit</a></td>
+            <td><a asp-area="" asp-controller="Publishers" asp-action="delPublisher" asp-route-id="@item.Id">Delete</a></td>
+        </tr>
+    }
+</table>

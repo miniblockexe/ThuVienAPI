@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Library_web.Models.DTO.authorDTO>
+@{
+    ViewData["Title"] = "Authors";
+}
+
+<h2>List all authors</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="text-danger">@TempData["Error"]</div>
+}
+
+<a class="btn btn-primary" asp-controller="Authors" asp-action="addAuthor">Add new author</a>
+
+<table class="table">
+    <tr>
+        <th>Id code</th>
+        <th>Full name</th>
+        <th>Detail</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.FullName</td>
+            <td><a asp-area="" asp-controller="Authors" asp-action="listAuthor" asp-route-id="@item.Id">Detail</a></td>
+            <td><a asp-area="" asp-controller="Authors" asp-action="editAuthor" asp-route-id="@item.Id">Edit</a></td>
+            <td><a asp-area="" asp-controller="Authors" asp-action="delAuthor" asp-route-id="@item.Id">Delete</a></td>
+        </tr>
+    }
+</table>

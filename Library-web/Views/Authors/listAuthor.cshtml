@@ -1,0 +1,17 @@
+﻿@model Library_web.Models.DTO.authorDTO
+@{
+    ViewData["Title"] = "Author detail";
+}
+
+<h1>Thông tin tác giả:</h1>
+
+@if (ViewBag.Error != null)
+{
+    <div class="text-danger">@ViewBag.Error</div>
+}
+
+<p>Id: @Model.Id</p>
+<p>Full name: @Model.FullName</p>
+
+<a asp-controller="Authors" asp-action="editAuthor" asp-route-id="@Model.Id">Edit</a> |
+<a asp-controller="Authors" asp-action="Index">Back to list</a>
